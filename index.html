@@ -1,0 +1,55 @@
+<!-- Machine spirit, may your blessings be upon this unworthy code -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="./src/assets/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./src/assets/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./src/assets/favicon-16x16.png">
+    <title>Featherlite Reddit</title>
+</head>
+
+<script src="./src/darklite.js" type="module"></script>
+<script type="module" src="./main.js"></script>
+
+<body>
+    <main style="transition: all 0.2s ease 0.1s;">
+        <a id="top"></a>
+        <h1 id="header">Featherlite Reddit</h1>
+        <p id="disclaimer">Warning: some things may not render properly, or at all. Unless you see 'no image or link', typically because it's a self post or nsfw, there should be a link to follow. Click comment count to show and hide comments. Most recent updates: added audio to videos where present, serious code cleaning, and some CSS mistakes fixed.</p>
+
+        <div id="display">
+            <div id="button-box" style="transition: all ease;">
+                <h2 id="content-header">r/all</h2>
+                <div id="nav">
+                    <div id="top-link"><a href="#top">Back to Top</a></div>
+                    
+                    <button id="all-button" class="button" style="background-color: grey; border: grey;">r/all</button>
+                    <button id="popular-button" class="button">r/popular</button>
+                    <button id="dark-lite" class="button">Dark Mode</button>
+                </div>
+                <div id="ui-box">
+                    <div id="search">
+                        <form id="search-form" action="">
+                            <label for="search-text">Search</label>
+                            <input type="search" id="search-text" placeholder="enter a word or phrase">
+                            <input type="submit" id="search-button" class="button">
+                            <p>Reddit search rules apply, e.g. entering 'subreddit:gaming' will search for subreddits named 'gaming'.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div id="content"><br>Loading...</div>
+        </div>
+        <footer>&#169; <a target="_blank" href="https://staubner.github.io/">Sean Taubner</a></footer>
+    </main>
+
+</body>
+
+
+</html>
