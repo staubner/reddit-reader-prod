@@ -8,13 +8,17 @@ const isLite = () => {
     return mode;
 };
 
+const setMode = (mode) => {
+    localStorage.setItem('mode', mode)
+}
+
 const liteMode = () => {
     body.style.backgroundColor = 'white';
     body.style.color = 'black';
     nav.style.backgroundColor = 'white';
     a.style.color = 'black';
     styleBtn.innerText = 'Dark Mode';
-    window.localStorage.setItem('mode', 'lite');
+    setMode('lite')
 };
 
 const darkMode = () => {
@@ -23,8 +27,16 @@ const darkMode = () => {
     nav.style.backgroundColor = '#333';
     a.style.color = 'white';
     styleBtn.innerText = 'Light Mode'
-    window.localStorage.setItem('mode', 'dark');
+    setMode('dark')
 };
+
+if (isLite() === 'dark') {
+    body.style.backgroundColor = '#333';
+    body.style.color = 'whitesmoke';
+    nav.style.backgroundColor = '#333';
+    a.style.color = 'white';
+    styleBtn.innerText = 'Light Mode'
+}
 
 if (isLite() === 'dark') {
     body.style.backgroundColor = '#333';
