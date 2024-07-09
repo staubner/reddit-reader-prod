@@ -153,23 +153,17 @@ footer {
       padding-bottom: 4px;
   }
 
+  #search-form {
+    text-align: center;
+  }
+
   #button-box {
       display: flex;
       flex-direction: column;
       align-items: center;
   }
-  
-  #ui-box {
-      flex-direction: column;
-      align-items: baseline;
-  }
 
-  #ui-box > * {
-      padding: 2px 0px;
-      
-  }
-
-  #search, #subreddit-search {
+  #search {
       margin: 0 auto;
   }
 }
