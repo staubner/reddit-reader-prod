@@ -1,6 +1,7 @@
 export const pageRender = (pageData, epoch, generateComments) => {
     const post = document.createElement('div');
     post.setAttribute('class', 'post');
+    post.setAttribute('data-subreddit', `${pageData.subreddit}`)
 
     const postTitle = document.createElement('h3');
     postTitle.setAttribute('class', 'post-title');

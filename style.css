@@ -27,6 +27,7 @@ main {
 #top-link {
   background-color: inherit;
   transition: background-color 0.3s linear;
+  max-width: fit-content;
 }
 
 a,
@@ -148,9 +149,14 @@ footer {
 
 @media only screen and (max-width: 800px) {
 
+  #header {
+    text-align: center;
+  }
+
   #top-link {
       text-align: center;
       padding-bottom: 4px;
+      margin: 0 auto;
   }
 
   #search-form {
