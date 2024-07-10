@@ -1,6 +1,7 @@
 import { convertEpoch } from "./src/util/helper-functions.js";
 import { generateComments } from "./src/comments.js";
 import { pageRender } from "./src/pageRender.js";
+import { saveSubreddit } from "./src/util/helper-functions.js";
 
 //loading reddit/r/all on page load
 console.log('Hi, this is a student project. Feel free to look around.')
@@ -27,7 +28,7 @@ const rAll = redditDataAll.map(obj => obj.data);
 const page = [];
 
 rAll.forEach((obj) => {
-    const post = pageRender(obj, convertEpoch, generateComments);
+    const post = pageRender(obj, convertEpoch, generateComments, saveSubreddit);
     page.push(post);
 });
 
