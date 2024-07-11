@@ -5,10 +5,13 @@ export const convertEpoch = (epoch) => {
 };
 
 // saves a subreddit to local storage
-// export function saveSubreddit(sub) {
-//     if (localStorage.getItem('subList') == null) {
-//         localStorage.setItem('subList', JSON.stringify(sub))
-//     } else {
-        
-//     }    
-// }
+export function saveSubreddit(subList) {
+    localStorage.setItem('subList', JSON.stringify(subList));
+}
+
+// loads subreddit list from local storage
+export function loadSubreddits() {
+    const list = localStorage.getItem('subList')
+    if (list == null) return [];
+    return JSON.parse(list);
+}

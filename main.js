@@ -1,9 +1,13 @@
 import { convertEpoch } from "./src/util/helper-functions.js";
 import { generateComments } from "./src/comments.js";
 import { pageRender } from "./src/pageRender.js";
-import { saveSubreddit } from "./src/util/helper-functions.js";
+import { saveSubreddit, loadSubreddits } from "./src/util/helper-functions.js";
 
-//loading reddit/r/all on page load
+// manage local storage of saved subreddits
+let subList = loadSubreddits();
+console.log(subList)
+
+// loading reddit/r/all on page load
 console.log('Hi, this is a student project. Feel free to look around.')
 
 const contentBox = document.getElementById('content');

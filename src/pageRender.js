@@ -21,10 +21,6 @@ export const pageRender = (pageData, epoch, generateComments, saveSubreddit) => 
     const subreddit = document.createElement('span');
     subreddit.setAttribute('class', 'subreddit');
     subreddit.innerText = `on ${pageData.subreddit_name_prefixed} `;
-    subreddit.addEventListener('click', () => {
-        const subName = post.getAttribute('data-subreddit')
-        saveSubreddit(subName)
-    })
     post.appendChild(subreddit);
 
     const thumbnailContainer = document.createElement('div')
