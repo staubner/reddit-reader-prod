@@ -1,4 +1,4 @@
-export const pageRender = (pageData, epoch, generateComments, saveSubreddit) => {
+export const pageRender = (pageData, epoch, generateComments) => {
     const post = document.createElement('div');
     post.setAttribute('class', 'post');
     post.setAttribute('data-subreddit', `${pageData.subreddit}`)
@@ -20,6 +20,7 @@ export const pageRender = (pageData, epoch, generateComments, saveSubreddit) => 
 
     const subreddit = document.createElement('span');
     subreddit.setAttribute('class', 'subreddit');
+    subreddit.setAttribute('data-subname', pageData.subreddit)
     subreddit.innerText = `on ${pageData.subreddit_name_prefixed} `;
     post.appendChild(subreddit);
 

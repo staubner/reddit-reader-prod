@@ -3,22 +3,33 @@ import { generateComments } from "./src/comments.js";
 import { pageRender } from "./src/pageRender.js";
 import { saveSubreddit, loadSubreddits } from "./src/util/helper-functions.js";
 
+const contentBox = document.getElementById('content');
+
 // manage local storage of saved subreddits
 let subList = loadSubreddits();
-console.log(subList)
+renderSubs(subList);
+
+// TODO: fix this render saved subreddits
+function renderSubs(list) {
+    list.forEach(() => {
+        const savedSubs = document.getElementById('list-content')
+        const sub = document.createElement('span')
+        sub.setAttribute('class', 'saved-list-item')
+        savedSubs.append(sub);
+    })
+}
+
+renderSubs(subList);
 
 // loading reddit/r/all on page load
 console.log('Hi, this is a student project. Feel free to look around.')
-
-const contentBox = document.getElementById('content');
 
 async function fetchReddit () {
     try {
         const response = await fetch(`https://www.reddit.com/r/all.json?limit=25`);
         const json = await response.json();
         return json.data.children;
-    }
-    catch {
+    } catch {
         contentBox.style.color = 'red'
         contentBox.innerHTML = '<br>There seems to be a problem with Reddit, please try again later.'
     };
@@ -32,7 +43,7 @@ const rAll = redditDataAll.map(obj => obj.data);
 const page = [];
 
 rAll.forEach((obj) => {
-    const post = pageRender(obj, convertEpoch, generateComments, saveSubreddit);
+    const post = pageRender(obj, convertEpoch, generateComments);
     page.push(post);
 });
 
@@ -41,6 +52,21 @@ document.getElementById('all-button').style.backgroundColor = 'gray'
 contentBox.innerText = '';
 
 contentBox.append(...page);
+
+// add event listener to subreddit names and add clicked sub names to local storage
+const subredditList = document.getElementsByClassName('subreddit')
+for (let i = 0; i < subredditList.length; i++) {
+    subredditList[i].addEventListener('click', () => {
+        const newSubName = subredditList[i].getAttribute('data-subname')
+        if (subList.length > 9) window.alert("You can save a maximum of 10 subreddits")
+        if (subList.indexOf(newSubName) === -1) {
+            subList.push(newSubName);
+            saveSubreddit(subList);
+        } else {
+            window.alert("You can't save duplicate subreddits")
+        }
+    })
+}
 
 //-----------------------------------------------------------
 

@@ -45,15 +45,14 @@ a:active {
   padding: 5px 0;
 }
 
-#ui-box {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .post-title {
   border-bottom: 1px solid black;
   padding-bottom: 5px;
+}
+
+#sub-list {
+  border-top: 2px solid black;
+  margin-top: 5px;
 }
 
 #button-box {
