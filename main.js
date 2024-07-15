@@ -7,15 +7,22 @@ const contentBox = document.getElementById('content');
 
 // manage local storage of saved subreddits
 let subList = loadSubreddits();
-renderSubs(subList);
 
-// TODO: fix this render saved subreddits
+// render saved subreddits
 function renderSubs(list) {
-    list.forEach(() => {
-        const savedSubs = document.getElementById('list-content')
-        const sub = document.createElement('span')
-        sub.setAttribute('class', 'saved-list-item')
-        savedSubs.append(sub);
+    const listBox = document.getElementById('list-content')
+    listBox.innerHTML = '';
+    list.forEach(item => {
+        const listItem = document.createElement('span');
+        //fix so punctuation is not added at end of list
+        listItem.innerText = `${item} | `
+        listItem.setAttribute('class', 'saved-sub-item')
+        listItem.addEventListener('click', () => {
+            subList = subList.filter(li => li !== item);
+            saveSubreddit(subList);
+            renderSubs(subList);
+        })
+        listBox.append(listItem);
     })
 }
 
@@ -24,7 +31,7 @@ renderSubs(subList);
 // loading reddit/r/all on page load
 console.log('Hi, this is a student project. Feel free to look around.')
 
-async function fetchReddit () {
+async function fetchReddit() {
     try {
         const response = await fetch(`https://www.reddit.com/r/all.json?limit=25`);
         const json = await response.json();
@@ -57,13 +64,17 @@ contentBox.append(...page);
 const subredditList = document.getElementsByClassName('subreddit')
 for (let i = 0; i < subredditList.length; i++) {
     subredditList[i].addEventListener('click', () => {
-        const newSubName = subredditList[i].getAttribute('data-subname')
-        if (subList.length > 9) window.alert("You can save a maximum of 10 subreddits")
-        if (subList.indexOf(newSubName) === -1) {
+        const newSubName = subredditList[i].getAttribute('data-subname');
+        if (subList.length > 9) {
+            window.alert("You can save a maximum of 10 subreddits") 
+            return
+        } else if (subList.indexOf(newSubName) !== -1) {
+            window.alert("You can't save duplicate subreddits")
+            return
+        } else {
             subList.push(newSubName);
             saveSubreddit(subList);
-        } else {
-            window.alert("You can't save duplicate subreddits")
+            renderSubs(subList);
         }
     })
 }

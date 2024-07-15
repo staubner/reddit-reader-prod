@@ -15,7 +15,7 @@
 </head>
 
 <script src="./src/darklite.js" type="module"></script>
-<script type="module" src="./main.js"></script>
+<script type="module" src="./main.js" defer></script>
 
 <body>
     <main style="transition: all 0.2s ease 0.1s;">
@@ -42,8 +42,8 @@
                     </form>
                 </div>
                 <div id="sub-list">
-                    <h3>Saved Subreddits</h3>
-                    <p id="list-content">Nothing here yet</p>
+                    <h3>Saved Subreddits (maximum 10)</h3>
+                    <p id="list-content"></p>
                 </div>
             </div>
             <div id="content"><br>Loading...</div>
