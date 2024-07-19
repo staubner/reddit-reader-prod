@@ -6,7 +6,7 @@ import { saveSubreddit, loadSubreddits } from "./src/util/helper-functions.js";
 const contentBox = document.getElementById('content');
 
 // manage local storage of saved subreddits
-let subList = loadSubreddits();
+export let subList = loadSubreddits();
 
 // render saved subreddits
 function renderSubs(list) {
@@ -14,14 +14,21 @@ function renderSubs(list) {
     listBox.innerHTML = '';
     list.forEach(item => {
         const listItem = document.createElement('span');
-        //fix so punctuation is not added at end of list
-        listItem.innerText = `${item} | `
-        listItem.setAttribute('class', 'saved-sub-item')
-        listItem.addEventListener('click', () => {
+        const delListItem = document.createElement('span')
+        delListItem.setAttribute('class', 'sub-del-button')
+        delListItem.innerText = '[x] '
+        delListItem.addEventListener('click', () => {
+            if (window.confirm(`Do you want to delete subreddit ${item}?`))
             subList = subList.filter(li => li !== item);
             saveSubreddit(subList);
             renderSubs(subList);
         })
+        listItem.innerText = `${item}`
+        listItem.setAttribute('class', 'saved-sub-item')
+        listItem.addEventListener('click', async () => {
+
+        })
+        listItem.append(delListItem);
         listBox.append(listItem);
     })
 }
@@ -69,10 +76,13 @@ for (let i = 0; i < subredditList.length; i++) {
             window.alert("You can save a maximum of 10 subreddits") 
             return
         } else if (subList.indexOf(newSubName) !== -1) {
-            window.alert("You can't save duplicate subreddits")
+            window.alert(`You have already saved r/${newSubName}`)
             return
         } else {
             subList.push(newSubName);
+            subList.sort((a, b) => {
+                return a.toLowerCase().localeCompare(b.toLowerCase());
+            });
             saveSubreddit(subList);
             renderSubs(subList);
         }

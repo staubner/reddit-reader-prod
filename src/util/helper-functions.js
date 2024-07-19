@@ -13,5 +13,7 @@ export function saveSubreddit(subList) {
 export function loadSubreddits() {
     const list = localStorage.getItem('subList')
     if (list == null) return [];
-    return JSON.parse(list);
+    return JSON.parse(list).sort((a, b) => {
+        return a.toLowerCase().localeCompare(b.toLowerCase());
+    });
 }
