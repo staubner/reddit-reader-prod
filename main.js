@@ -6,7 +6,7 @@ import { saveSubreddit, loadSubreddits } from "./src/util/helper-functions.js";
 const contentBox = document.getElementById('content');
 
 // manage local storage of saved subreddits
-export let subList = loadSubreddits();
+let subList = loadSubreddits();
 
 // render saved subreddits
 function renderSubs(list) {
