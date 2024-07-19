@@ -19,19 +19,54 @@ function renderSubs(list) {
         delListItem.innerText = '[x] '
         delListItem.addEventListener('click', () => {
             if (window.confirm(`Do you want to delete subreddit ${item}?`))
-            subList = subList.filter(li => li !== item);
+                subList = subList.filter(li => li !== item);
             saveSubreddit(subList);
             renderSubs(subList);
         })
         listItem.innerText = `${item}`
         listItem.setAttribute('class', 'saved-sub-item')
-        listItem.addEventListener('click', async () => {
+        listItem.addEventListener('click', async (event) => {
+            event.preventDefault();
 
+            async function loadRedditSub() {
+                try {
+                    const response = await fetch(`https://www.reddit.com/r/${item}.json?limit=25`);
+                    const json = await response.json();
+                    return json.data.children;
+                } catch {
+                    contentBox.style.color = 'red'
+                    contentBox.innerHTML = '<br>There seems to be a problem with Reddit, please try again later.'
+                }
+            }
+
+            const fetchedSub = await loadRedditSub();
+
+            const savedSub = fetchedSub.map(obj => obj.data);
+
+            const page = [];
+
+            savedSub.forEach((obj) => {
+                const post = pageRender(obj, convertEpoch, generateComments);
+                page.push(post);
+            });
+
+            contentBox.innerText = '';
+
+            document.getElementById('content-header').innerText = `r/${item}`;
+            document.getElementById('all-button').style.backgroundColor = '';
+            document.getElementById('all-button').style.border = '';
+            document.getElementById('popular-button').style.backgroundColor = '';
+            document.getElementById('popular-button').style.border = '';
+
+            contentBox.append(...page);
+
+            subListEvents();
         })
-        listItem.append(delListItem);
         listBox.append(listItem);
+        listBox.append(delListItem);
     })
 }
+
 
 renderSubs(subList);
 
@@ -68,66 +103,73 @@ contentBox.innerText = '';
 contentBox.append(...page);
 
 // add event listener to subreddit names and add clicked sub names to local storage
-const subredditList = document.getElementsByClassName('subreddit')
-for (let i = 0; i < subredditList.length; i++) {
-    subredditList[i].addEventListener('click', () => {
-        const newSubName = subredditList[i].getAttribute('data-subname');
-        if (subList.length > 9) {
-            window.alert("You can save a maximum of 10 subreddits") 
-            return
-        } else if (subList.indexOf(newSubName) !== -1) {
-            window.alert(`You have already saved r/${newSubName}`)
-            return
-        } else {
-            subList.push(newSubName);
-            subList.sort((a, b) => {
-                return a.toLowerCase().localeCompare(b.toLowerCase());
-            });
-            saveSubreddit(subList);
-            renderSubs(subList);
-        }
-    })
+
+function subListEvents() {
+    const subredditList = document.getElementsByClassName('subreddit')
+    for (let i = 0; i < subredditList.length; i++) {
+        subredditList[i].addEventListener('click', () => {
+            const newSubName = subredditList[i].getAttribute('data-subname');
+            if (subList.length > 9) {
+                window.alert("You can save a maximum of 10 subreddits")
+                return
+            } else if (subList.indexOf(newSubName) !== -1) {
+                window.alert(`You have already saved r/${newSubName}`)
+                return
+            } else {
+                subList.push(newSubName);
+                subList.sort((a, b) => {
+                    return a.toLowerCase().localeCompare(b.toLowerCase());
+                });
+                saveSubreddit(subList);
+                renderSubs(subList);
+            }
+        })
+    }
 }
+
+subListEvents();
 
 //-----------------------------------------------------------
 
 // r/all button
 document.getElementById('all-button').addEventListener('click', async () => {
 
-  const contentBox = document.getElementById('content');
-  contentBox.innerHTML = '<br>Loading...'
+    const contentBox = document.getElementById('content');
+    contentBox.innerHTML = '<br>Loading...'
 
-  const redditAll = async () => {
-      try {
-          const response = await fetch(`https://www.reddit.com/r/all.json?limit=25`);
-          const json = await response.json();
-          return json.data.children;
-      } catch {
-          contentBox.style.color = 'red'
-          contentBox.innerHTML = '<br>There seems to be a problem with Reddit, please try again later.'
-      }
-  };
+    const redditAll = async () => {
+        try {
+            const response = await fetch(`https://www.reddit.com/r/all.json?limit=25`);
+            const json = await response.json();
+            return json.data.children;
+        } catch {
+            contentBox.style.color = 'red'
+            contentBox.innerHTML = '<br>There seems to be a problem with Reddit, please try again later.'
+        }
+    };
 
-  const redditDataAll = await redditAll();
+    const redditDataAll = await redditAll();
 
-  const rAll = redditDataAll.map(obj => obj.data);
+    const rAll = redditDataAll.map(obj => obj.data);
 
-  const page = [];
+    const page = [];
 
-  rAll.forEach((obj) => {
-      const post = pageRender(obj, convertEpoch, generateComments);
-      page.push(post);
-  });
+    rAll.forEach((obj) => {
+        const post = pageRender(obj, convertEpoch, generateComments);
+        page.push(post);
+    });
 
-  contentBox.innerText = '';
+    contentBox.innerText = '';
 
-  document.getElementById('content-header').innerText = 'r/all';
-  document.getElementById('all-button').style.backgroundColor = 'gray';
-  document.getElementById('all-button').style.border = 'gray';
-  document.getElementById('popular-button').style.backgroundColor = '';
-  document.getElementById('popular-button').style.border = '';
+    document.getElementById('content-header').innerText = 'r/all';
+    document.getElementById('all-button').style.backgroundColor = 'gray';
+    document.getElementById('all-button').style.border = 'gray';
+    document.getElementById('popular-button').style.backgroundColor = '';
+    document.getElementById('popular-button').style.border = '';
 
-  contentBox.append(...page);
+    contentBox.append(...page);
+
+    subListEvents();
 });
 
 //-----------------------------------------------------------
@@ -135,40 +177,42 @@ document.getElementById('all-button').addEventListener('click', async () => {
 // r/popular button
 document.getElementById('popular-button').addEventListener('click', async () => {
 
-  const contentBox = document.getElementById('content');
-  contentBox.innerHTML = '<br>Loading...'
+    const contentBox = document.getElementById('content');
+    contentBox.innerHTML = '<br>Loading...'
 
-  const redditPopular = async () => {
-      try {
-          const response = await fetch(`https://www.reddit.com/r/popular.json?limit=25`);
-          const json = await response.json();
-          return json.data.children;
-      } catch {
-          contentBox.style.color = 'red'
-          contentBox.innerHTML = '<br>There seems to be a problem with Reddit, please try again later.'
-      }
-  };
+    const redditPopular = async () => {
+        try {
+            const response = await fetch(`https://www.reddit.com/r/popular.json?limit=25`);
+            const json = await response.json();
+            return json.data.children;
+        } catch {
+            contentBox.style.color = 'red'
+            contentBox.innerHTML = '<br>There seems to be a problem with Reddit, please try again later.'
+        }
+    };
 
-  const redditDataPopular = await redditPopular();
+    const redditDataPopular = await redditPopular();
 
-  const rPopular = redditDataPopular.map(obj => obj.data);
+    const rPopular = redditDataPopular.map(obj => obj.data);
 
-  const page = [];
+    const page = [];
 
-  rPopular.forEach((obj) => {
-      const post = pageRender(obj, convertEpoch, generateComments);
-      page.push(post);
-  });
+    rPopular.forEach((obj) => {
+        const post = pageRender(obj, convertEpoch, generateComments);
+        page.push(post);
+    });
 
-  contentBox.innerText = '';
+    contentBox.innerText = '';
 
-  document.getElementById('content-header').innerText = 'r/popular';
-  document.getElementById('all-button').style.backgroundColor = '';
-  document.getElementById('all-button').style.border = '';
-  document.getElementById('popular-button').style.backgroundColor = 'gray';
-  document.getElementById('popular-button').style.border = 'gray';
+    document.getElementById('content-header').innerText = 'r/popular';
+    document.getElementById('all-button').style.backgroundColor = '';
+    document.getElementById('all-button').style.border = '';
+    document.getElementById('popular-button').style.backgroundColor = 'gray';
+    document.getElementById('popular-button').style.border = 'gray';
 
-  contentBox.append(...page);
+    contentBox.append(...page);
+
+    subListEvents();
 });
 
 //-----------------------------------------------------------
@@ -217,4 +261,6 @@ searchForm.addEventListener('submit', async (event) => {
     document.getElementById('popular-button').style.border = '';
 
     contentBox.append(...page);
+
+    subListEvents();
 });

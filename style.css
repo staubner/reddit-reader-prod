@@ -143,6 +143,14 @@ footer {
       background-color: gray;
       transition: background-color 0.2s ease;
   }
+
+  .sub-del-button:hover {
+    cursor: pointer;
+  }
+
+  .saved-sub-item {
+    cursor: pointer;
+  }
   
 }
 
