@@ -138,6 +138,10 @@ footer {
       transition: background-color 0.3s linear;
   }
 
+  .subreddit {
+    cursor: pointer;
+  }
+
   .num-comments:hover {
       cursor: pointer;
       background-color: gray;
@@ -149,6 +153,10 @@ footer {
   }
 
   .saved-sub-item {
+    cursor: pointer;
+  }
+
+  #disclaimer {
     cursor: pointer;
   }
   
@@ -178,6 +186,10 @@ footer {
 
   #search {
       margin: 0 auto;
+  }
+
+  #disclaimer {
+    text-align: center;
   }
 }
 

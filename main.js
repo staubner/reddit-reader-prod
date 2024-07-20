@@ -25,9 +25,7 @@ function renderSubs(list) {
         })
         listItem.innerText = `${item}`
         listItem.setAttribute('class', 'saved-sub-item')
-        listItem.addEventListener('click', async (event) => {
-            event.preventDefault();
-
+        listItem.addEventListener('click', async () => {
             async function loadRedditSub() {
                 try {
                     const response = await fetch(`https://www.reddit.com/r/${item}.json?limit=25`);
@@ -101,6 +99,8 @@ document.getElementById('all-button').style.backgroundColor = 'gray'
 contentBox.innerText = '';
 
 contentBox.append(...page);
+
+//--------------------------------------------------------------------
 
 // add event listener to subreddit names and add clicked sub names to local storage
 
@@ -264,3 +264,16 @@ searchForm.addEventListener('submit', async (event) => {
 
     subListEvents();
 });
+
+// show/hide app info
+const infoBox = document.getElementById('disclaimer');
+
+infoBox.addEventListener('click', () => {
+    if (infoBox.getAttribute('data-hidden') === 'true') {
+        infoBox.setAttribute('data-hidden', 'false')
+        infoBox.innerText = "Warning: some things may not render properly, or at all. Unless you see 'no image or link', typically because it's a self post or nsfw, there should be a link to follow. Click comment count to show and hide comments. Click on a post's subreddit name to save it to your list, and click on the list entry if you want to see posts from that subreddit. Most recent updates: added audio to videos where present, serious code cleaning, the ability to save subreddits and view posts from saved subreddits."
+    } else if (infoBox.getAttribute('data-hidden') === 'false') {
+        infoBox.setAttribute('data-hidden', 'true')
+        infoBox.innerText = "Click to show/hide information"
+    }
+})
