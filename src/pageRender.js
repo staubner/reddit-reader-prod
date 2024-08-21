@@ -79,7 +79,7 @@ export const pageRender = (pageData, epoch, generateComments) => {
         thumbnailContainer.appendChild(imgLink)
         const thumbnailImg = document.createElement('img');
         thumbnailImg.setAttribute('class', 'thumbnail');
-        thumbnailImg.setAttribute('src', './src/assets/icons8-no-image-100.png')
+        thumbnailImg.setAttribute('src', './src/assets/image-not-found.png')
         imgLink.appendChild(thumbnailImg);
         post.appendChild(thumbnailContainer);
     } else if (pageData.media && pageData.media.oembed) {
