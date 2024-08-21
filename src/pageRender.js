@@ -1,3 +1,5 @@
+import noImageUrl from './assets/image-not-found.png'
+
 export const pageRender = (pageData, epoch, generateComments) => {
     const post = document.createElement('div');
     post.setAttribute('class', 'post');
@@ -79,7 +81,7 @@ export const pageRender = (pageData, epoch, generateComments) => {
         thumbnailContainer.appendChild(imgLink)
         const thumbnailImg = document.createElement('img');
         thumbnailImg.setAttribute('class', 'thumbnail');
-        thumbnailImg.setAttribute('src', './src/assets/image-not-found.png')
+        thumbnailImg.setAttribute('src', noImageUrl)
         imgLink.appendChild(thumbnailImg);
         post.appendChild(thumbnailContainer);
     } else if (pageData.media && pageData.media.oembed) {
