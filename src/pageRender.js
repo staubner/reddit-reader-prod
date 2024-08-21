@@ -50,7 +50,7 @@ export const pageRender = (pageData, epoch, generateComments) => {
             thumbnailImg.appendChild(audio);
             thumbnailImg.onplay = function () { audio.play() };
             thumbnailImg.onpause = function () { audio.pause() };
-            thumbnailImg.onseeking = function () { audio.currentTime = thumbnailImg.currentTime ;}
+            thumbnailImg.onseeking = function () { audio.currentTime = thumbnailImg.currentTime; }
         }
         thumbnailContainer.appendChild(thumbnailImg);
         post.appendChild(thumbnailContainer);
@@ -79,7 +79,7 @@ export const pageRender = (pageData, epoch, generateComments) => {
         thumbnailContainer.appendChild(imgLink)
         const thumbnailImg = document.createElement('img');
         thumbnailImg.setAttribute('class', 'thumbnail');
-        thumbnailImg.setAttribute('src', './assets/icons8-no-image-100.png')
+        thumbnailImg.setAttribute('src', './src/assets/icons8-no-image-100.png')
         imgLink.appendChild(thumbnailImg);
         post.appendChild(thumbnailContainer);
     } else if (pageData.media && pageData.media.oembed) {
